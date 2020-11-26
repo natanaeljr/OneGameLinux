@@ -1,0 +1,4 @@
+[submodule "glfw"]
+	path = external/glfw3
+	url = https://github.com/glfw/glfw.git
+	branch = master
