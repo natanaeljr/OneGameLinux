@@ -1,35 +1,32 @@
-cmake_minimum_required(VERSION 3.10.2)
-project(FirstGameLinux VERSION 0.1 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.5)
+project(FirstGameLinux)
 
 #########################################################################################
-# General
+# Configuration
 #########################################################################################
-set(CMAKE_VERBOSE_MAKEFILE OFF)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb -pg -fsanitize=undefined -Werror -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-set(OpenGL_GL_PREFERENCE "GLVND")
+set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type default to Debug")
 
 #########################################################################################
 # Dependencies
 #########################################################################################
-set(GLFW3_SOURCE_DIR "${CMAKE_SOURCE_DIR}/libs/glfw3" CACHE STRING "" FORCE)
-include(cmake/glfw3.cmake)
-
-set(GLAD_SOURCE_DIR "${CMAKE_SOURCE_DIR}/libs/glad" CACHE STRING "" FORCE)
-include(cmake/glad.cmake)
+include(ExternalProject)
+add_subdirectory(external)
+list(PREPEND CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}/external")
 
 #########################################################################################
 # Project
 #########################################################################################
-add_executable(main)
-target_sources(main PRIVATE
-  src/main.cpp
-)
-target_link_libraries(main PRIVATE
-  glfw3  
-  glad
-)
+message(STATUS "Adding sub-project: FirstGameLinux")
+ExternalProject_Add(FirstGameLinux
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FirstGameLinux
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/FirstGameLinux
+    CMAKE_ARGS
+        -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+    DEPENDS
+        glad_external
+        glfw3_external
+        spdlog_external)
