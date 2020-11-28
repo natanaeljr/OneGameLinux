@@ -6,3 +6,7 @@
 	path = external/glad
 	url = https://github.com/Dav1dde/glad.git
 	branch = master
+[submodule "spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
