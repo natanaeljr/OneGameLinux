@@ -10,7 +10,10 @@ project(FirstGameLinux)
 # Configuration
 #########################################################################################
 # Default build type to Debug, for release use `cmake -DCMAKE_BUILD_TYPE=Release ..`
-set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type default to Debug")
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type default to Debug" FORCE)
+endif()
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 #########################################################################################
 # Dependencies
@@ -40,4 +43,5 @@ ExternalProject_Add(FirstGameLinux
         stb_external
         glad_external
         glfw3_external
-        spdlog_external)
+        spdlog_external
+        assimp_external)

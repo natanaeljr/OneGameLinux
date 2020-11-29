@@ -12,6 +12,12 @@ project(FirstGameLinux LANGUAGES CXX)
 #########################################################################################
 # Configuration
 #########################################################################################
+# Default build type to Debug, for release use `cmake -DCMAKE_BUILD_TYPE=Release ..`
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type default to Debug" FORCE)
+endif()
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+
 # Turn on when having trouble building
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 # Compilation Database for C++ language servers
@@ -39,6 +45,12 @@ find_package(glfw3 3.3.2 EXACT REQUIRED)
 find_package(spdlog 1.8.1 EXACT REQUIRED)
 # STB for image loading/decoding
 find_package(stb 0.8.1 EXACT REQUIRED COMPONENTS stb_image)
+# Assimp for 3D model loading
+find_package(assimp 5.0.0 EXACT REQUIRED)
+# IrrXML for Assimp dependency
+find_library(IrrXML_LIBRARY NAMES IrrXML IrrXMLd)
+# Zlib for Assimp dependency
+find_library(Zlib_LIBRARY NAMES zlibstatic zlibstaticd)
 
 #########################################################################################
 # Project
@@ -52,5 +64,8 @@ target_link_libraries(main PRIVATE
     glfw
     glad::glad
     OpenGL::GL
+    assimp::assimp
+    ${IrrXML_LIBRARY}
+    ${Zlib_LIBRARY}
 )
 install(TARGETS main)

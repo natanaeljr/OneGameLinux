@@ -79,3 +79,23 @@ ExternalProject_Add(stb_external
         -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DSTB_IMAGE=ON)
+
+#########################################################################################
+# Assimp
+#########################################################################################
+# Assimp is a library to import and export various 3d-model-formats including
+# scene-post-processing to generate missing render data.
+# Assimp is lisenced under modified 3-clause BSD License.
+message(STATUS "Adding external library: Assimp")
+ExternalProject_Add(assimp_external
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/assimp
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/assimp
+    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DBUILD_SHARED_LIBS=OFF
+        -DASSIMP_BUILD_ZLIB=ON
+        -DASSIMP_BUILD_TESTS=OFF
+        -DASSIMP_BUILD_ASSIMP_TOOLS=OFF)

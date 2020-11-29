@@ -13,3 +13,6 @@
 [submodule "stb"]
 	path = external/stb
 	url = https://github.com/natanaeljr/stb-cmake-package
+[submodule "assimp"]
+	path = external/assimp
+	url = https://github.com/assimp/assimp.git
