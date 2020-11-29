@@ -4,6 +4,9 @@ include(ExternalProject)
 #########################################################################################
 # GLFW3
 #########################################################################################
+# GLFW is multi-platform library for OpenGL, OpenGL ES and Vulkan development on desktop.
+# Provides an API for creating windows, contexts and surfaces, receiving input and events.
+# GLFW is licensed under the zlib/libpng license.
 message(STATUS "Adding external library: GLFW3")
 ExternalProject_Add(glfw3_external
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/glfw3
@@ -21,6 +24,8 @@ ExternalProject_Add(glfw3_external
 #########################################################################################
 # GLAD
 #########################################################################################
+# Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs.
+# GLAD is licensed under the MIT license.
 message(STATUS "Adding external library: GLAD")
 ExternalProject_Add(glad_external
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/glad
@@ -41,6 +46,8 @@ ExternalProject_Add(glad_external
 #########################################################################################
 # SPDLOG
 #########################################################################################
+# SPDLog is very fast, header-only or compiled, C++ logging library.
+# SPDLog is licensed under the MIT license.
 message(STATUS "Adding external library: SPDLOG")
 ExternalProject_Add(spdlog_external
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/spdlog

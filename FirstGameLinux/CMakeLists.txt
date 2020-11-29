@@ -1,29 +1,47 @@
 cmake_minimum_required(VERSION 3.5)
 project(FirstGameLinux LANGUAGES CXX)
 
+# This project is can be built as a standalone project on a system with the required
+# libraries already installed, or it can be part of the Super-Project which builds all
+# dependencies with the correct versions.
+# For building it seperately with the dependency builds from the Super-Project,
+# the variable `CMAKE_PREFIX_PATH` must be set to the Super-Project's build/external dir.
+# In Linux you can do it as:
+#  cmake .. -DCMAKE_PREFIX_PATH=$(realpath ../../build/external)
+
 #########################################################################################
 # Configuration
 #########################################################################################
+# Turn on when having trouble building
 set(CMAKE_VERBOSE_MAKEFILE OFF)
+# Compilation Database for C++ language servers
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# For OpenGL prefer new GL Vendor Neutral Dispatch (GLVND) rather than legacy
+set(OpenGL_GL_PREFERENCE "GLVND")
+
+# Default compilation settings
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb -pg -fsanitize=undefined -Werror -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-set(OpenGL_GL_PREFERENCE "GLVND")
 
 #########################################################################################
 # Dependencies
 #########################################################################################
+# OpenGL for graphics library
 find_package(OpenGL REQUIRED)
+# GLAD for opengl function loader 
 find_package(glad 0.1.34 EXACT REQUIRED)
+# GLFW for desktop windowing and input
 find_package(glfw3 3.3.2 EXACT REQUIRED)
+# SPDLog for fast C++ logging library
 find_package(spdlog 1.8.1 EXACT REQUIRED)
 
 #########################################################################################
 # Project
 #########################################################################################
+# Main target binary
 add_executable(main)
 target_sources(main PRIVATE
     src/main.cpp
