@@ -37,6 +37,7 @@ ExternalProject_Add(FirstGameLinux
         -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
     DEPENDS
+        stb_external
         glad_external
         glfw3_external
         spdlog_external)

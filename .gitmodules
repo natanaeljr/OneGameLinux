@@ -10,3 +10,6 @@
 	path = external/spdlog
 	url = https://github.com/gabime/spdlog.git
 	branch = v1.x
+[submodule "stb"]
+	path = external/stb
+	url = https://github.com/natanaeljr/stb-cmake-package

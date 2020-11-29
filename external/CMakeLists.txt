@@ -63,3 +63,19 @@ ExternalProject_Add(spdlog_external
         -DSPDLOG_BUILD_EXAMPLE=OFF
         -DSPDLOG_FMT_EXTERNAL=ON
         -DSPDLOG_NO_EXCEPTIONS=ON)
+
+#########################################################################################
+# STB
+#########################################################################################
+# stb single-file public domain libraries for C/C++
+# stb is licensed under the MIT license and Public Domain.
+message(STATUS "Adding external library: STB")
+ExternalProject_Add(stb_external
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/stb
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stb
+    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DSTB_IMAGE=ON)
