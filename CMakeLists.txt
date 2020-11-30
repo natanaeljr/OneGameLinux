@@ -33,6 +33,7 @@ message(STATUS "Adding sub-project: FirstGameLinux")
 ExternalProject_Add(FirstGameLinux
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FirstGameLinux
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/FirstGameLinux
+    BUILD_ALWAYS 1
     CMAKE_ARGS
         -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
