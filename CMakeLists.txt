@@ -11,7 +11,7 @@ project(FirstGameLinux)
 #########################################################################################
 # Default build type to Debug, for release use `cmake -DCMAKE_BUILD_TYPE=Release ..`
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type default to Debug" FORCE)
+set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type default to Debug" FORCE)
 endif()
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
