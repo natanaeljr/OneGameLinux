@@ -20,10 +20,10 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 #########################################################################################
 # Module ExternaProject for building projects in external trees.
 include(ExternalProject)
-# `external` directory contains all dependency libraries for the sub-projects.
-add_subdirectory(external)
 # Include the external libraries in the path where cmake looks for find_package/library.
 list(PREPEND CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}/external")
+# `external` directory contains all dependency libraries for the sub-projects.
+add_subdirectory(external)
 
 #########################################################################################
 # Project
@@ -45,5 +45,6 @@ ExternalProject_Add(FirstGameLinux
         glm_external
         glad_external
         glfw3_external
+        imgui_external
         spdlog_external
         assimp_external)

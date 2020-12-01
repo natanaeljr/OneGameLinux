@@ -41,6 +41,8 @@ find_package(OpenGL REQUIRED)
 find_package(glad 0.1.34 EXACT REQUIRED)
 # GLFW for desktop windowing and input
 find_package(glfw3 3.3.2 EXACT REQUIRED)
+# ImGui for graphical user interface
+find_package(imgui 1.79 EXACT REQUIRED)
 # SPDLog for fast C++ logging library
 find_package(spdlog 1.8.1 EXACT REQUIRED)
 # GLM for opengl mathematics library
@@ -63,10 +65,13 @@ target_sources(main PRIVATE
     src/main.cpp
 )
 target_link_libraries(main PRIVATE
+    glm::glm_static
+    imgui::imgui
+    imgui::imgui_glfw
+    imgui::imgui_opengl
     glfw
     glad::glad
     OpenGL::GL
-    glm::glm_static
     assimp::assimp
     ${IrrXML_LIBRARY}
     ${Zlib_LIBRARY}
