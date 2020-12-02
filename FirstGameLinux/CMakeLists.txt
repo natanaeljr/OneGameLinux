@@ -43,6 +43,8 @@ find_package(glad 0.1.34 EXACT REQUIRED)
 find_package(glfw3 3.3.2 EXACT REQUIRED)
 # SPDLog for fast C++ logging library
 find_package(spdlog 1.8.1 EXACT REQUIRED)
+# GLM for opengl mathematics library
+find_package(glm 0.9.9.9 EXACT REQUIRED)
 # STB for image loading/decoding
 find_package(stb 0.8.1 EXACT REQUIRED COMPONENTS stb_image)
 # Assimp for 3D model loading
@@ -64,6 +66,7 @@ target_link_libraries(main PRIVATE
     glfw
     glad::glad
     OpenGL::GL
+    glm::glm_static
     assimp::assimp
     ${IrrXML_LIBRARY}
     ${Zlib_LIBRARY}

@@ -16,3 +16,6 @@
 [submodule "assimp"]
 	path = external/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "glm"]
+	path = external/glm
+	url = https://github.com/natanaeljr/glm.git

@@ -42,6 +42,7 @@ ExternalProject_Add(FirstGameLinux
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
     DEPENDS
         stb_external
+        glm_external
         glad_external
         glfw3_external
         spdlog_external
