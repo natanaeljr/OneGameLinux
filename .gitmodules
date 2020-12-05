@@ -28,3 +28,6 @@
 [submodule "FirstGame"]
 	path = FirstGameLinux/FirstGame
 	url = git@github.com:natanaeljr/FirstGame.git
+[submodule "glbinding"]
+	path = external/glbinding
+	url = https://github.com/cginternals/glbinding.git

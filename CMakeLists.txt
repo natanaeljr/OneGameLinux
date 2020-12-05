@@ -48,4 +48,5 @@ ExternalProject_Add(FirstGameLinux
         glfw3_external
         imgui_external
         spdlog_external
-        assimp_external)
+        assimp_external
+        glbinding_external)

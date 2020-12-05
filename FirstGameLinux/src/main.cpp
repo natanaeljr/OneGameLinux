@@ -1,7 +1,10 @@
 #include <cstdio>
 #include <iostream>
 
-#include <glad/glad.h>
+#include <glbinding/gl33core/gl.h>
+#include <glbinding/glbinding.h>
+using namespace gl;
+
 #include <GLFW/glfw3.h>
 
 #include <imgui/imgui.h>
@@ -40,10 +43,7 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+    glbinding::initialize(glfwGetProcAddress);
 
     ImGui::CreateContext();
     ImGui::StyleColorsDark();

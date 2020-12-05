@@ -37,8 +37,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 #########################################################################################
 # OpenGL for graphics library
 find_package(OpenGL REQUIRED)
-# GLAD for opengl function loader
-find_package(glad 0.1.34 EXACT REQUIRED)
+# GLBinding for C++ binding of the OpenGL API
+find_package(glbinding REQUIRED)
 # GLFW for desktop windowing and input
 find_package(glfw3 3.3.2 EXACT REQUIRED)
 # ImGui for graphical user interface
@@ -51,7 +51,7 @@ find_package(Microsoft.GSL 3.1.0 EXACT REQUIRED)
 #########################################################################################
 # Project
 #########################################################################################
-set(FIRSTGAME_OPENGL_LOADER_GLAD ON CACHE BOOL "OpenGL Loader GLAD")
+set(FIRSTGAME_OPENGL_GLBINDING3 ON CACHE BOOL "OpenGL C++ GLBinding")
 add_subdirectory(FirstGame)
 
 # Main target binary
@@ -61,17 +61,18 @@ target_sources(main PRIVATE
 )
 target_link_libraries(main PRIVATE
     FirstGame
+    glfw
     imgui::imgui
     imgui::imgui_glfw
     imgui::imgui_opengl
-    glfw
-    glad::glad
+    glbinding::glbinding
+    glbinding::glbinding-aux
     OpenGL::GL
     Microsoft.GSL::GSL
 )
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-target_compile_definitions(main PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
-endif()
+target_compile_definitions(main PRIVATE
+    GLFW_INCLUDE_NONE
+    SPDLOG_ACTIVE_LEVEL=$<IF:$<STREQUAL:${CMAKE_BUILD_TYPE},Debug>,SPDLOG_LEVEL_TRACE,SPDLOG_LEVEL_INFO>
+)
 
 install(TARGETS main)
