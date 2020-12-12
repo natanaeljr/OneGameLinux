@@ -45,12 +45,15 @@ find_package(glfw3 3.3.2 EXACT REQUIRED)
 find_package(imgui 1.79 EXACT REQUIRED)
 # SPDLog for fast C++ logging library
 find_package(spdlog 1.8.1 EXACT REQUIRED)
+# GSL for types and functions of C++ Core Guidelines
+find_package(Microsoft.GSL 3.1.0 EXACT REQUIRED)
 # GLM for opengl mathematics library
 find_package(glm 0.9.9.9 EXACT REQUIRED)
 # STB for image loading/decoding
 find_package(stb 0.8.1 EXACT REQUIRED COMPONENTS stb_image)
 # Assimp for 3D model loading
 find_package(assimp 5.0.0 EXACT REQUIRED)
+
 # IrrXML for Assimp dependency
 find_library(IrrXML_LIBRARY NAMES IrrXML IrrXMLd)
 # Zlib for Assimp dependency
@@ -72,6 +75,7 @@ target_link_libraries(main PRIVATE
     glfw
     glad::glad
     OpenGL::GL
+    Microsoft.GSL::GSL
     assimp::assimp
     ${IrrXML_LIBRARY}
     ${Zlib_LIBRARY}

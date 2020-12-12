@@ -22,3 +22,6 @@
 [submodule "imgui"]
 	path = external/imgui
 	url = https://github.com/natanaeljr/imgui-cmake-package.git
+[submodule "gsl"]
+	path = external/gsl
+	url = https://github.com/microsoft/GSL.git
