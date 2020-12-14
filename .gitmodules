@@ -25,3 +25,6 @@
 [submodule "gsl"]
 	path = external/gsl
 	url = https://github.com/microsoft/GSL.git
+[submodule "FirstGame"]
+	path = FirstGameLinux/FirstGame
+	url = git@github.com:natanaeljr/FirstGame.git

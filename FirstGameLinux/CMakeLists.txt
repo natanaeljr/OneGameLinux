@@ -62,12 +62,15 @@ find_library(Zlib_LIBRARY NAMES zlibstatic zlibstaticd)
 #########################################################################################
 # Project
 #########################################################################################
+add_subdirectory(FirstGame)
+
 # Main target binary
 add_executable(main)
 target_sources(main PRIVATE
     src/main.cpp
 )
 target_link_libraries(main PRIVATE
+    FirstGame
     glm::glm_static
     imgui::imgui
     imgui::imgui_glfw
