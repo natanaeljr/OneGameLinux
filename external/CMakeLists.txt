@@ -61,7 +61,7 @@ ExternalProject_Add(spdlog_external
         -DSPDLOG_BUILD_SHARED=OFF
         -DSPDLOG_BUILD_TESTS=OFF
         -DSPDLOG_BUILD_EXAMPLE=OFF
-        -DSPDLOG_FMT_EXTERNAL=ON
+        -DSPDLOG_FMT_EXTERNAL=OFF
         -DSPDLOG_NO_EXCEPTIONS=ON)
 
 #########################################################################################

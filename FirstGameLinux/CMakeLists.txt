@@ -37,7 +37,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 #########################################################################################
 # OpenGL for graphics library
 find_package(OpenGL REQUIRED)
-# GLAD for opengl function loader 
+# GLAD for opengl function loader
 find_package(glad 0.1.34 EXACT REQUIRED)
 # GLFW for desktop windowing and input
 find_package(glfw3 3.3.2 EXACT REQUIRED)
@@ -83,4 +83,9 @@ target_link_libraries(main PRIVATE
     ${IrrXML_LIBRARY}
     ${Zlib_LIBRARY}
 )
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+target_compile_definitions(main PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
+endif()
+
 install(TARGETS main)
