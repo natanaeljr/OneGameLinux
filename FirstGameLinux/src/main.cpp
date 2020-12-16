@@ -24,7 +24,7 @@ int main()
     spdlog::set_default_logger(spdlog::stdout_color_mt("main"));
     spdlog::set_pattern("%Y-%m-%d %T.%e <%^%=5l%$> [%n] %s:%#:%!():  %v");
     spdlog::set_level(spdlog::level::trace);
-    SPDLOG_INFO("Initializing FirstGameLinux");
+    SPDLOG_INFO("Initializing FirstGameLinux..");
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -76,7 +76,7 @@ int main()
         glfwPollEvents();
     }
 
-    SPDLOG_INFO("Terminating FirstGameLinux");
+    SPDLOG_INFO("Terminating FirstGameLinux..");
 
     firstgame.reset();
 
@@ -86,7 +86,7 @@ int main()
 
     glfwTerminate();
 
-    SPDLOG_INFO("Exiting.");
+    SPDLOG_INFO("Terminated.");
     return 0;
 }
 

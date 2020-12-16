@@ -62,6 +62,7 @@ find_library(Zlib_LIBRARY NAMES zlibstatic zlibstaticd)
 #########################################################################################
 # Project
 #########################################################################################
+set(FIRSTGAME_OPENGL_LOADER_GLAD ON CACHE BOOL "OpenGL Loader GLAD")
 add_subdirectory(FirstGame)
 
 # Main target binary
