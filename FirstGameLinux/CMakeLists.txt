@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 project(FirstGameLinux LANGUAGES CXX)
 
-# This project is can be built as a standalone project on a system with the required
+# This project can be built as a standalone project on a system with the required
 # libraries already installed, or it can be part of the Super-Project which builds all
 # dependencies with the correct versions.
-# For building it seperately with the dependency builds from the Super-Project,
+# For building it separately with the dependency builds from the Super-Project,
 # the variable `CMAKE_PREFIX_PATH` must be set to the Super-Project's build/external dir.
 # In Linux you can do it as:
 #  cmake .. -DCMAKE_PREFIX_PATH=$(realpath ../../build/external)
@@ -47,17 +47,6 @@ find_package(imgui 1.79 EXACT REQUIRED)
 find_package(spdlog 1.8.1 EXACT REQUIRED)
 # GSL for types and functions of C++ Core Guidelines
 find_package(Microsoft.GSL 3.1.0 EXACT REQUIRED)
-# GLM for opengl mathematics library
-find_package(glm 0.9.9.9 EXACT REQUIRED)
-# STB for image loading/decoding
-find_package(stb 0.8.1 EXACT REQUIRED COMPONENTS stb_image)
-# Assimp for 3D model loading
-find_package(assimp 5.0.0 EXACT REQUIRED)
-
-# IrrXML for Assimp dependency
-find_library(IrrXML_LIBRARY NAMES IrrXML IrrXMLd)
-# Zlib for Assimp dependency
-find_library(Zlib_LIBRARY NAMES zlibstatic zlibstaticd)
 
 #########################################################################################
 # Project
@@ -72,7 +61,6 @@ target_sources(main PRIVATE
 )
 target_link_libraries(main PRIVATE
     FirstGame
-    glm::glm_static
     imgui::imgui
     imgui::imgui_glfw
     imgui::imgui_opengl
@@ -80,9 +68,6 @@ target_link_libraries(main PRIVATE
     glad::glad
     OpenGL::GL
     Microsoft.GSL::GSL
-    assimp::assimp
-    ${IrrXML_LIBRARY}
-    ${Zlib_LIBRARY}
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
