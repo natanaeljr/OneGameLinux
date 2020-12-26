@@ -17,6 +17,8 @@ using namespace gl;
 #include "firstgame/firstgame.h"
 #include "firstgame/event.h"
 
+#include "filesystem.h"
+
 using firstgame::FirstGame;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -25,7 +27,7 @@ static void processInput(GLFWwindow* window);
 int main()
 {
     spdlog::set_default_logger(spdlog::stdout_color_mt("main"));
-    spdlog::set_pattern("%Y-%m-%d %T.%e <%^%=5l%$> [%n] %s:%#:%!():  %v");
+    spdlog::set_pattern("%Y-%m-%d %T.%e <%^%l%$> [%n] %s:%#:%!():  %v");
     spdlog::set_level(spdlog::level::trace);
     SPDLOG_INFO("Initializing FirstGameLinux..");
 
@@ -50,7 +52,8 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
-    std::unique_ptr<FirstGame> firstgame = FirstGame::New(spdlog::stdout_color_mt("firstgame"));
+    std::unique_ptr<FirstGame> firstgame =
+        FirstGame::New(spdlog::stdout_color_mt("firstgame"), std::make_unique<FileSystemLinux>());
 
     while (!glfwWindowShouldClose(window)) {
         // input

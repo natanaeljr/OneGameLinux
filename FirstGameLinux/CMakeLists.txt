@@ -57,6 +57,7 @@ add_subdirectory(FirstGame)
 # Main target binary
 add_executable(main)
 target_sources(main PRIVATE
+    src/filesystem.cpp
     src/main.cpp
 )
 target_link_libraries(main PRIVATE
