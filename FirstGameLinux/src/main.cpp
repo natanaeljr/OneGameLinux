@@ -44,6 +44,7 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSwapInterval(0); // disable vsync
 
     glbinding::initialize(glfwGetProcAddress);
 
