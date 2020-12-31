@@ -44,6 +44,7 @@ ExternalProject_Add(FirstGameLinux
         gsl_external
         stb_external
         glm_external
+        entt_external
         glad_external
         glfw3_external
         imgui_external

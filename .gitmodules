@@ -31,3 +31,6 @@
 [submodule "glbinding"]
 	path = external/glbinding
 	url = https://github.com/cginternals/glbinding.git
+[submodule "entt"]
+	path = external/entt
+	url = https://github.com/skypjack/entt.git
