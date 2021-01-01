@@ -58,6 +58,7 @@ add_subdirectory(FirstGame)
 add_executable(main)
 target_sources(main PRIVATE
     src/filesystem.cpp
+    src/mousemap.cpp
     src/keymap.cpp
     src/main.cpp
 )

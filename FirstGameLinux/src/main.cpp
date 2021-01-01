@@ -18,12 +18,15 @@ using namespace gl;
 #include "firstgame/event/event.h"
 
 #include "keymap.h"
+#include "mousemap.h"
 #include "filesystem.h"
 
 using firstgame::FirstGame;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 struct State {
     std::unique_ptr<FirstGame> firstgame;
@@ -51,8 +54,14 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetWindowUserPointer(window, &state);
+    // callbacks
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetKeyCallback(window, key_callback);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    // settings
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
     glfwSwapInterval(0);  // disable vsync
 
     glbinding::initialize(glfwGetProcAddress);
@@ -62,8 +71,8 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
-    state.firstgame =
-        FirstGame::New(spdlog::stdout_color_mt("firstgame"), std::make_unique<FileSystemLinux>());
+    state.firstgame = FirstGame::New(width, height, spdlog::stdout_color_mt("firstgame"),
+                                     std::make_unique<FileSystemLinux>());
 
     while (!glfwWindowShouldClose(window)) {
         // update & render
@@ -102,15 +111,11 @@ int main()
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // TODO: move this control to the game event system
-    glViewport(0, 0, width, height);
     auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
-    state->firstgame->OnEvent(firstgame::event::Event{
-        firstgame::event::WindowEvent{
-            firstgame::event::WindowEvent::Resize{
-                .width = width,
-                .height = height,
-            },
+    state->firstgame->OnEvent(firstgame::event::WindowEvent{
+        firstgame::event::WindowEvent::Resize{
+            .width = width,
+            .height = height,
         },
     });
 }
@@ -118,11 +123,25 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        // TODO: move this control to the game event system
+        // TODO: move this control to the game variant system
         glfwSetWindowShouldClose(window, true);
     }
     auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
     firstgame::event::KeyEvent key_event =
         MapGlfwKeyEventToGameKeyEvent(key, scancode, action, mods);
-    state->firstgame->OnEvent(firstgame::event::Event{ key_event });
+    state->firstgame->OnEvent(key_event);
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
+    state->firstgame->OnEvent(firstgame::event::CursorEvent{ .xpos = xpos, .ypos = ypos });
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
+    firstgame::event::MouseEvent mouse_event =
+        MapGlfwMouseEventToGameMouseEvent(button, action, mods);
+    state->firstgame->OnEvent(mouse_event);
 }
