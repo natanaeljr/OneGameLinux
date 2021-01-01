@@ -27,6 +27,7 @@ static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 struct State {
     std::unique_ptr<FirstGame> firstgame;
@@ -59,6 +60,7 @@ int main()
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetScrollCallback(window, scroll_callback);
     // settings
     int width, height;
     glfwGetWindowSize(window, &width, &height);
@@ -135,7 +137,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
     auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
-    state->firstgame->OnEvent(firstgame::event::CursorEvent{ .xpos = xpos, .ypos = ypos });
+    state->firstgame->OnEvent(firstgame::event::CursorEvent{
+        .xpos = xpos,
+        .ypos = ypos,
+    });
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -144,4 +149,13 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     firstgame::event::MouseEvent mouse_event =
         MapGlfwMouseEventToGameMouseEvent(button, action, mods);
     state->firstgame->OnEvent(mouse_event);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
+    state->firstgame->OnEvent(firstgame::event::ScrollEvent{
+        .xoffset = xoffset,
+        .yoffset = yoffset,
+    });
 }
