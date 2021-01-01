@@ -15,14 +15,19 @@ using namespace gl;
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 #include "firstgame/firstgame.h"
-#include "firstgame/event.h"
+#include "firstgame/event/event.h"
 
+#include "keymap.h"
 #include "filesystem.h"
 
 using firstgame::FirstGame;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-static void processInput(GLFWwindow* window);
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+struct State {
+    std::unique_ptr<FirstGame> firstgame;
+};
 
 int main()
 {
@@ -30,6 +35,8 @@ int main()
     spdlog::set_pattern("%Y-%m-%d %T.%e <%^%l%$> [%n] %s:%#:%!():  %v");
     spdlog::set_level(spdlog::level::trace);
     SPDLOG_INFO("Initializing FirstGameLinux..");
+
+    State state{};
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -43,8 +50,10 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
+    glfwSetWindowUserPointer(window, &state);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSwapInterval(0); // disable vsync
+    glfwSetKeyCallback(window, key_callback);
+    glfwSwapInterval(0);  // disable vsync
 
     glbinding::initialize(glfwGetProcAddress);
 
@@ -53,24 +62,21 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
-    std::unique_ptr<FirstGame> firstgame =
+    state.firstgame =
         FirstGame::New(spdlog::stdout_color_mt("firstgame"), std::make_unique<FileSystemLinux>());
 
     while (!glfwWindowShouldClose(window)) {
-        // input
-        processInput(window);
-
         // update & render
         glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        firstgame->Update(0u);
+        state.firstgame->Update(0u);
 
         // imgui
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        firstgame->OnImGuiRender();
+        state.firstgame->OnImGuiRender();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -82,7 +88,7 @@ int main()
 
     SPDLOG_INFO("Terminating FirstGameLinux..");
 
-    firstgame.reset();
+    state.firstgame.reset();
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
@@ -96,12 +102,27 @@ int main()
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    // TODO: move this control to the game event system
     glViewport(0, 0, width, height);
+    auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
+    state->firstgame->OnEvent(firstgame::event::Event{
+        firstgame::event::WindowEvent{
+            firstgame::event::WindowEvent::Resize{
+                .width = width,
+                .height = height,
+            },
+        },
+    });
 }
 
-void processInput(GLFWwindow* window)
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+        // TODO: move this control to the game event system
         glfwSetWindowShouldClose(window, true);
     }
+    auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
+    firstgame::event::KeyEvent key_event =
+        MapGlfwKeyEventToGameKeyEvent(key, scancode, action, mods);
+    state->firstgame->OnEvent(firstgame::event::Event{ key_event });
 }
