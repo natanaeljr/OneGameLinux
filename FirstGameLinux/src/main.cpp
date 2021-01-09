@@ -77,11 +77,15 @@ int main()
     state.firstgame = FirstGame::New(width, height, spdlog::stdout_color_mt("firstgame"),
                                      std::make_unique<FileSystemLinux>());
 
+    double last_time = glfwGetTime();
+
     while (!glfwWindowShouldClose(window)) {
+        double current = glfwGetTime();
+        double deltatime = current - last_time;
+        last_time = current;
+
         // update & render
-        glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        state.firstgame->Update(0u);
+        state.firstgame->Update(deltatime);
 
         // imgui
         ImGui_ImplOpenGL3_NewFrame();
