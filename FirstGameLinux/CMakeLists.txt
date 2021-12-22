@@ -42,7 +42,7 @@ find_package(glbinding REQUIRED)
 # GLFW for desktop windowing and input
 find_package(glfw3 3.3.2 EXACT REQUIRED)
 # ImGui for graphical user interface
-find_package(imgui 1.79 EXACT REQUIRED)
+find_package(imgui 1.85 EXACT REQUIRED)
 # SPDLog for fast C++ logging library
 find_package(spdlog 1.8.1 EXACT REQUIRED)
 # GSL for types and functions of C++ Core Guidelines
