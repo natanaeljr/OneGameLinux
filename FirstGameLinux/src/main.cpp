@@ -36,7 +36,7 @@ struct State {
 int main()
 {
     spdlog::set_default_logger(spdlog::stdout_color_mt("main"));
-    spdlog::set_pattern("%Y-%m-%d %T.%e <%^%l%$> [%n] %s:%#:%!():  %v");
+    spdlog::set_pattern("%Y-%m-%d %T.%e <%^%l%$> [%n] %s:%#: %!() -> %v");
     spdlog::set_level(spdlog::level::trace);
     SPDLOG_INFO("Initializing FirstGameLinux..");
 
@@ -74,8 +74,8 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
-    state.firstgame = FirstGame::New(width, height, spdlog::stdout_color_mt("firstgame"),
-                                     std::make_unique<FileSystemLinux>());
+    state.firstgame =
+        FirstGame::New(width, height, spdlog::stdout_color_mt("firstgame"), std::make_unique<FileSystemLinux>());
 
     double last_time = glfwGetTime();
 
@@ -134,8 +134,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         glfwSetWindowShouldClose(window, true);
     }
     auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
-    firstgame::event::KeyEvent key_event =
-        MapGlfwKeyEventToGameKeyEvent(key, scancode, action, mods);
+    firstgame::event::KeyEvent key_event = MapGlfwKeyEventToGameKeyEvent(key, scancode, action, mods);
     state->firstgame->OnEvent(key_event);
 }
 
@@ -151,8 +150,7 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
     auto state = static_cast<State*>(glfwGetWindowUserPointer(window));
-    firstgame::event::MouseEvent mouse_event =
-        MapGlfwMouseEventToGameMouseEvent(button, action, mods);
+    firstgame::event::MouseEvent mouse_event = MapGlfwMouseEventToGameMouseEvent(button, action, mods);
     state->firstgame->OnEvent(mouse_event);
 }
 
