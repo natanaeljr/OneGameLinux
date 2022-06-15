@@ -1,11 +1,11 @@
-# FirstGameLinux
+# OneGameLinux
 
 ## Cloning
 
 Clone the repository with the `recursive` flag, so as to also pull all submodules linked to this project.
 
 ```
-git clone --recursive https://github.com/natanaeljr/FirstGameLinux.git
+git clone --recursive https://github.com/natanaeljr/OneGameLinux.git
 ```
 
 ## Updating
